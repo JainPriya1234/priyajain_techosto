@@ -1,4 +1,5 @@
-const assign=require("../model/user.model");
+const createCustomError = require("../error/customAPTError");
+const assign=require("../model/proj.model");
 
 const getTask=async(req,res)=>{
    try{
@@ -6,7 +7,7 @@ const getTask=async(req,res)=>{
     res.status(200).json(tasks);
    }
    catch(err){
-    res.json(err);
+    res.json(createCustomError(err,400));
    }
 };
 
@@ -26,7 +27,7 @@ const createTask=async(req,res)=>{
     res.status(201).json(task);
    }
    catch(err){
-    res.json(err);
+    res.json(createCustomError(err,400));
    }
 };
 
@@ -46,7 +47,7 @@ const updateTask=async(req,res)=>{
     res.status(201).json(updateTask);
    }
    catch(err){
-    res.json(err);
+    res.json(createCustomError(err,400));
    }
 }
 
@@ -63,7 +64,7 @@ const deleteTask=async(req,res)=>{
  
   }
   catch(err){
-    res.json(err);
+    res.json(createCustomError(err,400));
   }
 }
 
