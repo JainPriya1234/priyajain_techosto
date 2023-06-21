@@ -1,12 +1,18 @@
 const assign=require("../model/user.model");
 
 const getTask=async(req,res)=>{
+   try{
     const tasks=await assign.find()
     res.status(200).json(tasks);
+   }
+   catch(err){
+    res.json(err);
+   }
 };
 
 
 const createTask=async(req,res)=>{
+   try{
     console.log("The request body is ",req.body);
     const {project,date,start_time,end_time,time_spent,description}=req.body;
     if(!project||!date||!start_time||!end_time||!time_spent||!description){
@@ -18,10 +24,14 @@ const createTask=async(req,res)=>{
     })
     
     res.status(201).json(task);
+   }
+   catch(err){
+    res.json(err);
+   }
 };
 
 const updateTask=async(req,res)=>{
-    console.log("hi");
+   try{
     const task=await assign.findById(req.body.id);
     if(!task){
         res.status(404);
@@ -34,19 +44,27 @@ const updateTask=async(req,res)=>{
         {new:true}
     )
     res.status(201).json(updateTask);
+   }
+   catch(err){
+    res.json(err);
+   }
 }
 
 const deleteTask=async(req,res)=>{
-    console.log("hi");
-   const task=await assign.findById(req.body.id);
-   if(!task){
-    res.status(404);
-    throw new Error("Task not found")
-   }
-   await assign.deleteOne();
-   
-   res.status(200).json(task)
-
+  try{
+    const task=await assign.findById(req.body.id);
+    if(!task){
+     res.status(404);
+     throw new Error("Task not found")
+    }
+    await assign.deleteOne();
+    
+    res.status(200).json(task)
+ 
+  }
+  catch(err){
+    res.json(err);
+  }
 }
 
 module.exports={getTask,updateTask,createTask,deleteTask}
